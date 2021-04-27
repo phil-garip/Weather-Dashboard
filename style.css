@@ -1,0 +1,45 @@
+body {
+    min-height: 100vh;
+}
+
+.jumbotron-fluid {
+    padding: 2rem 1rem;
+    background-image: linear-gradient(to right, #3a76de ,#461b6e);
+    color: white;
+}
+
+.display-4 {
+    font-weight: bold;
+}
+
+.aside {
+    margin: 5px;
+}
+
+.aside-head {
+    margin-bottom: 5px;
+}
+
+.aside-btn {
+    margin: 5px 0;
+    width: 100%;
+}
+
+.search-a-city {
+    margin: 5px 0;
+    width: 100%;
+}
+
+.main {
+    min-width: 100vw;
+}
+
+.current-weather {
+    border: solid 1px black;
+    padding: 2px 0 0 5px;
+    margin-bottom: 1.5rem;
+}
+
+.card {
+    margin: 0 10px;
+}
