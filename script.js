@@ -1,5 +1,6 @@
 var endPointFiveDay = "/data/2.5/forecast";
 var cityName;
+var cityButton;
 var searchBtn = $("#search-btn");
 var currentWeather = $("#current-weather");
 var foreCastCard1 = $("#forecast-1");
@@ -20,7 +21,7 @@ function getCurrentWeather() {
     var endPointCurrentWeather = "/data/2.5/weather";
     
     cityName = $("#search").val();
-    var parameters = "?q=" + cityName + "&appid=520ff59736bd76211aac21cf63b52200&units=imperial";
+    var parameters = "?q=" + cityName + "&appid=ac7c20380ee5e1b7f7afd8b4a480ea62&units=imperial";
 
     //save cities in local storage
     function setSavedCities () {
@@ -55,7 +56,7 @@ function getCurrentWeather() {
         var lon = "&lon=" + weather.coord.lon;
         var lat = "lat=" + weather.coord.lat;
         var uvEndpoint = "/data/2.5/uvi?";
-        var uvParameters = uvEndpoint + lat + lon + "&appid=520ff59736bd76211aac21cf63b52200";
+        var uvParameters = uvEndpoint + lat + lon + "&appid=ac7c20380ee5e1b7f7afd8b4a480ea62";
 
         fetch(baseURL + uvParameters)
             .then (function(response) {
@@ -88,7 +89,7 @@ function getForecast() {
     var endPointForecast = "/data/2.5/forecast";
     
     cityName = $("#search").val();
-    var parameters = "?q=" + cityName + "&appid=520ff59736bd76211aac21cf63b52200&units=imperial";
+    var parameters = "?q=" + cityName + "&appid=ac7c20380ee5e1b7f7afd8b4a480ea62&units=imperial";
     
     fetch(baseURL+endPointForecast+parameters)
         .then(function (response) {
@@ -132,16 +133,21 @@ function getForecast() {
         searchHistory = JSON.parse(localStorage.getItem("history"));
         console.log(searchHistory)
     }
-
-    // display data for saved city button
-    function generateCityButton() {
-        var cityButton = $('<button type="button" class="btn btn-secondary aside-btn">').text(cityName);
-        recentSearches.append(cityButton);
-    }
+    
 
     generateCityButton();
     getsavedCity();
 }
 
+//generate buttons per city
+function generateCityButton() {
+    cityButton = $('<button type="button" class="btn btn-secondary aside-btn">').text(cityName);
+    recentSearches.append(cityButton);
+    cityName = cityButton.text();
+}
+
+//EVENT LISTENERS
 // get search bar input
 searchBtn.on("click", getCurrentWeather);
+
+
