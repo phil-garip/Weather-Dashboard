@@ -1,6 +1,4 @@
 var endPointFiveDay = "/data/2.5/forecast";
-var cityName;
-var cityButton;
 var searchBtn = $("#search-btn");
 var currentWeather = $("#current-weather");
 var foreCastCard1 = $("#forecast-1");
@@ -9,7 +7,8 @@ var foreCastCard3 = $("#forecast-3");
 var foreCastCard4 = $("#forecast-4");
 var foreCastCard5 = $("#forecast-5");
 var recentSearches = $("#recent-searches");
-var uvIndex = $("#uv-index");
+var cityName = "";
+
 
 var searchHistory = [];
 
@@ -68,13 +67,14 @@ function getCurrentWeather() {
             })
     //render UV Index
     function renderUVI(UV) {
+        var uvIndex = $("#uv-index");
         currentWeather.children("#uv-index").text("UV Index: " + UV.value);
-        if (UV.value > 7) {
-            uvIndex.attr("style=color:red");
-        } else if (UV.value < 3) {
-            uvIndex.attr("style=color:green");
+        if (UV.value >= 7) {
+            uvIndex.css("color", "red");
+        } else if (UV.value <= 3) {
+            uvIndex.css("color", "green");
         } else {
-            uvIndex.attr("style=color:yellow");
+            uvIndex.css("color", "goldenrod");
         }
     }
 
@@ -131,23 +131,31 @@ function getForecast() {
     //retrieve stored cities from local storage
     function getsavedCity() {
         searchHistory = JSON.parse(localStorage.getItem("history"));
+        for (i=0; i < searchHistory.length; i++) {
+            var cityButton = $('<button type="button" class="btn btn-secondary aside-btn">').text(searchHistory[i]);
+            recentSearches.append(cityButton[i]);
+            
+            cityButton.on("click", function(){
+                cityName = searchHistory[i];
+                getCurrentWeather();
+            })
+        }
+        
+        cityName = cityButton.text();
+        
         console.log(searchHistory)
     }
     
 
-    generateCityButton();
     getsavedCity();
 }
 
 //generate buttons per city
-function generateCityButton() {
-    cityButton = $('<button type="button" class="btn btn-secondary aside-btn">').text(cityName);
-    recentSearches.append(cityButton);
-    cityName = cityButton.text();
-}
+
 
 //EVENT LISTENERS
 // get search bar input
 searchBtn.on("click", getCurrentWeather);
+
 
 
