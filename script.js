@@ -27,7 +27,7 @@ function getCurrentWeather() {
         }
         searchHistory.unshift(cityName);
         localStorage.setItem("history", JSON.stringify(searchHistory));
-        recentSearches.append($('<button type="button" class="btn btn-secondary aside-btn">').text(cityName));
+        
     }
 
     setSavedCities();
@@ -122,6 +122,13 @@ function getForecast() {
         console.log(searchHistory)
     }
 
+    // display data for saved city button
+    function generateCityButton() {
+        var cityButton = $('<button type="button" class="btn btn-secondary aside-btn">').text(cityName);
+        recentSearches.append(cityButton);
+    }
+
+    generateCityButton();
     getsavedCity();
 }
 
