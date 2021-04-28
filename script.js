@@ -7,17 +7,30 @@ var foreCastCard2 = $("#forecast-2");
 var foreCastCard3 = $("#forecast-3");
 var foreCastCard4 = $("#forecast-4");
 var foreCastCard5 = $("#forecast-5");
+var recentSearches = $("#recent-searches");
 
 var searchHistory = [];
 
 
 //fetch current weather
 function getCurrentWeather() {
+
     var baseURL = "https://api.openweathermap.org";
     var endPointCurrentWeather = "/data/2.5/weather";
     
     cityName = $("#search").val();
     var parameters = "?q=" + cityName + "&appid=520ff59736bd76211aac21cf63b52200&units=imperial";
+
+    function setSavedCities () {
+        if (searchHistory.length === 5) {
+            searchHistory.pop(); 
+        }
+        searchHistory.unshift(cityName);
+        localStorage.setItem("history", JSON.stringify(searchHistory));
+        recentSearches.append($('<button type="button" class="btn btn-secondary aside-btn">').text(cityName));
+    }
+
+    setSavedCities();
     
     fetch(baseURL+endPointCurrentWeather+parameters)
         .then(function (response) {
@@ -103,6 +116,13 @@ function getForecast() {
     foreCastCard5.children("#wind5").text("Wind: " + weather.list[36].wind.speed + " mph");
     foreCastCard5.children("#humidity5").text("Humidity: " + weather.list[36].main.humidity + "%");
     }
+
+    function getsavedCity() {
+        searchHistory = JSON.parse(localStorage.getItem("history"));
+        console.log(searchHistory)
+    }
+
+    getsavedCity();
 }
 
 
