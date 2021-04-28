@@ -22,17 +22,17 @@ function getCurrentWeather() {
     cityName = $("#search").val();
     var parameters = "?q=" + cityName + "&appid=520ff59736bd76211aac21cf63b52200&units=imperial";
 
+    //save cities in local storage
     function setSavedCities () {
         if (searchHistory.length === 5) {
             searchHistory.pop(); 
         }
         searchHistory.unshift(cityName);
-        localStorage.setItem("history", JSON.stringify(searchHistory));
-        
+        localStorage.setItem("history", JSON.stringify(searchHistory));   
     }
-
     setSavedCities();
     
+    //openweather api call
     fetch(baseURL+endPointCurrentWeather+parameters)
         .then(function (response) {
             return response.json();
@@ -42,13 +42,15 @@ function getCurrentWeather() {
             getUvIndex(data);
             console.log(data);
         })
-        //render current weather
+    
+    //render current weather
     function renderCurrentWeather(weather) {
     currentWeather.children("h2").text(weather.name);
     currentWeather.children("#temp").text("Temp: " + weather.main.temp + " °F");
     currentWeather.children("#wind").text("Wind: " + weather.wind.speed + " mph");
     currentWeather.children("#humidity").text("Humidity: " + weather.main.humidity + "%");
 }
+    //get uv index api call
     function getUvIndex(weather) {
         var lon = "&lon=" + weather.coord.lon;
         var lat = "lat=" + weather.coord.lat;
@@ -125,6 +127,7 @@ function getForecast() {
     foreCastCard5.children("#humidity5").text("Humidity: " + weather.list[36].main.humidity + "%");
     }
 
+    //retrieve stored cities from local storage
     function getsavedCity() {
         searchHistory = JSON.parse(localStorage.getItem("history"));
         console.log(searchHistory)
@@ -140,18 +143,5 @@ function getForecast() {
     getsavedCity();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 // get search bar input
 searchBtn.on("click", getCurrentWeather);
-// getCurrentWeather();
