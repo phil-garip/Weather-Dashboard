@@ -8,6 +8,7 @@ var foreCastCard3 = $("#forecast-3");
 var foreCastCard4 = $("#forecast-4");
 var foreCastCard5 = $("#forecast-5");
 var recentSearches = $("#recent-searches");
+var uvIndex = $("#uv-index");
 
 var searchHistory = [];
 
@@ -65,6 +66,13 @@ function getCurrentWeather() {
     //render UV Index
     function renderUVI(UV) {
         currentWeather.children("#uv-index").text("UV Index: " + UV.value);
+        if (UV.value > 7) {
+            uvIndex.attr("style=color:red");
+        } else if (UV.value < 3) {
+            uvIndex.attr("style=color:green");
+        } else {
+            uvIndex.attr("style=color:yellow");
+        }
     }
 
     }
